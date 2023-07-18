@@ -30,7 +30,7 @@ const playerAttacks = {
 //     let whichAttack = $(this).attr('class');
 //     console.log('this attack in handleAttack:', whichAttack)
 // }  
-// Note: Noah was working on something like this which looked cool as a way to only use one handle function for all attacks and pull the class through the $(this) button, though I decided to stick to the long-form method I started with for now as I wasn't sure how to only use one of the 2 classes pulled from this method.
+// Note: Noah was working on something like this which looked cool as a way to only use one handle function for all attacks and pull the class through the $(this) button, though I decided to stick to the long-form method I started with for now as I wasn't sure how to only use one of the 2 classes pulled from this method.  I think he said he was switching his 2nd classes to ID's to make it work which makes sense to grab just that one button's ID.
 
 function onReady() {
     // console.log('in onReady!')
@@ -38,12 +38,9 @@ function onReady() {
     $('.entangle').on('click', handleEntangle)
     $('.dragon-blade').on('click', handleDragonBlade)
     $('.star-fire').on('click', handleStarFire)
-
-    // 🧠 Remember
-    // - Handle events that ->
-    // - Updates state which is ->
-    // - Rendered to the DOM
 }
+
+//------------- Handlers
 
 function handleArcaneScepter() {
     // console.log('in Arcane Scepter!')
@@ -83,11 +80,10 @@ function handleStarFire() {
     enemyHitPoints -= starFireAttack;
 
     render();
-
-    console.log("attack points:", playerAttackPoints);
-    console.log("enemy HP:", enemyHitPoints);
 }
 
+
+//------------ Rendering
 
 function render() {
     if (playerAttackPoints < 0) {
