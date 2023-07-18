@@ -92,9 +92,21 @@ function render() {
     if (enemyHitPoints < 0) {
         enemyHitPoints = 0;
     }
+
     $('.ap-text').text(`${playerAttackPoints} AP`)
     $('.hp-text').text(`${enemyHitPoints} HP`)
-    console.log(playerAttackPoints)
+
+    setInterval(refreshHP, 1000) // re-loading the div and progress meter along with updating the HP every 1 second - very cool!
+    function refreshHP() {
+        $('.hp-text').text(`${enemyHitPoints} HP`)
+        $('#hp-meter').val(`${enemyHitPoints}`)
+        if (enemyHitPoints >= 100) {
+            enemyHitPoints = 100;
+        }
+    }
+
+    // console.log(playerAttackPoints)
+    // console.log(enemyHitPoints)
 
     if (playerAttackPoints == 0) {
         $('.freaky-fungus').addClass('jump').removeClass('walk')
@@ -102,5 +114,16 @@ function render() {
     }
     if (enemyHitPoints == 0) {
         $('.freaky-fungus').addClass('dead').removeClass('walk')
+    } else if (enemyHitPoints < 50) {
+        setInterval(hpRegeneration, 1000);
     }
+
+    function hpRegeneration() {
+        if (enemyHitPoints > 0) {
+            enemyHitPoints++;
+        }
+    }
+
+    $('#ap-meter').val(`${playerAttackPoints}`)
+    $('#hp-meter').val(`${enemyHitPoints}`)
 }
