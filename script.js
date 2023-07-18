@@ -39,8 +39,6 @@ function onReady() {
     $('.dragon-blade').on('click', handleDragonBlade)
     $('.star-fire').on('click', handleStarFire)
 
-
-
     // 🧠 Remember
     // - Handle events that ->
     // - Updates state which is ->
@@ -55,7 +53,9 @@ function handleArcaneScepter() {
     // console.log('Attacks for:', arcaneAttack);
     playerAttackPoints -= arcaneAP;
     enemyHitPoints -= arcaneAttack;
-    console.log('current playerAttackPoints:', playerAttackPoints);
+    // console.log('current playerAttackPoints:', playerAttackPoints);
+
+    render();
 }
 
 function handleEntangle() {
@@ -63,7 +63,8 @@ function handleEntangle() {
     let entangleAttack = playerAttacks.entangle.HPdamage;
     playerAttackPoints -= entangleAP;
     enemyHitPoints -= entangleAttack;
-    console.log('current playerAttackPoints:', playerAttackPoints);
+
+    render();
 }
 
 function handleDragonBlade() {
@@ -71,7 +72,8 @@ function handleDragonBlade() {
     let dragonBladeAttack = playerAttacks.dragonBlade.HPdamage;
     playerAttackPoints -= dragonBladeAP;
     enemyHitPoints -= dragonBladeAttack;
-    console.log('current playerAttackPoints:', playerAttackPoints);
+
+    render();
 }
 
 function handleStarFire() {
@@ -79,5 +81,30 @@ function handleStarFire() {
     let starFireAttack = playerAttacks.starFire.HPdamage;
     playerAttackPoints -= starFireAP;
     enemyHitPoints -= starFireAttack;
-    console.log('current playerAttackPoints:', playerAttackPoints);
+
+    render();
+
+    console.log("attack points:", playerAttackPoints);
+    console.log("enemy HP:", enemyHitPoints);
+}
+
+
+function render() {
+    if (playerAttackPoints < 0) {
+        playerAttackPoints = 0;
+    }
+    if (enemyHitPoints < 0) {
+        enemyHitPoints = 0;
+    }
+    $('.ap-text').text(`${playerAttackPoints} AP`)
+    $('.hp-text').text(`${enemyHitPoints} HP`)
+    console.log(playerAttackPoints)
+
+    if (playerAttackPoints == 0) {
+        $('.freaky-fungus').addClass('jump').removeClass('walk')
+        $('.attack-btn').attr('disabled', true);
+    }
+    if (enemyHitPoints == 0) {
+        $('.freaky-fungus').addClass('dead').removeClass('walk')
+    }
 }
