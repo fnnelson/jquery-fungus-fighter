@@ -4,6 +4,8 @@ $(document).ready(onReady);
 let playerAttackPoints = 100;
 let enemyHitPoints = 100;
 
+// created object of objects.  I tried with an array of objects, but it wasn't working as well for me when I wanted to access a specific object's value.  I'm sure I was missing something simple, but it was difficult for me to get it to work that way (and that's the most common data structure per lectures, so I'm sure there's a way without using specific index #s !)
+
 const playerAttacks = {
     arcaneScepter: {
         APcost: 12,
@@ -58,7 +60,7 @@ function handleArcaneScepter() {
 function handleEntangle() {
     let entangleAP = playerAttacks.entangle.APcost;
     let entangleAttack = playerAttacks.entangle.HPdamage;
-    playerAttackPoints -= entangleAP;
+    playerAttackPoints -= entangleAP; // subtracting from global variables when clicked
     enemyHitPoints -= entangleAttack;
 
     render();
@@ -86,22 +88,22 @@ function handleStarFire() {
 //------------ Rendering
 
 function render() {
-    if (playerAttackPoints < 0) {
+    if (playerAttackPoints < 0) { // not allowing AP or HP to go below 0
         playerAttackPoints = 0;
     }
     if (enemyHitPoints < 0) {
         enemyHitPoints = 0;
     }
 
-    $('.ap-text').text(`${playerAttackPoints} AP`)
-    $('.hp-text').text(`${enemyHitPoints} HP`)
+    $('.ap-text').text(`${playerAttackPoints} AP`) 
+    $('.hp-text').text(`${enemyHitPoints} HP`) // updating AP and HP bar text with global variable values
 
-    setInterval(refreshHP, 1000) // re-loading the div and progress meter along with updating the HP every 1 second - very cool!
+    setInterval(refreshHP, 1000) // re-loading the div and progress meter along with updating the HP every 1 second - very cool find!
     function refreshHP() {
         $('.hp-text').text(`${enemyHitPoints} HP`)
         $('#hp-meter').val(`${enemyHitPoints}`)
         if (enemyHitPoints >= 100) {
-            enemyHitPoints = 100;
+            enemyHitPoints = 100; // made it so it won't go above 100.  If I have > 100 it flickered around 100/101 maybe because of the interval and load timing not being exactly the same
         }
     }
 
@@ -109,21 +111,21 @@ function render() {
     // console.log(enemyHitPoints)
 
     if (playerAttackPoints == 0) {
-        $('.freaky-fungus').addClass('jump').removeClass('walk')
-        $('.attack-btn').attr('disabled', true);
+        $('.freaky-fungus').addClass('jump').removeClass('walk') // replaced classes so a different CSS style is applied
+        $('.attack-btn').attr('disabled', true); // disabled the buttons, and added CSS style with disabled as well
     }
     if (enemyHitPoints == 0) {
         $('.freaky-fungus').addClass('dead').removeClass('walk')
     } else if (enemyHitPoints < 50) {
-        setInterval(hpRegeneration, 1000);
+        setInterval(hpRegeneration, 1000); // HP regen for when HP is below 50
     }
 
     function hpRegeneration() {
-        if (enemyHitPoints > 0) {
-            enemyHitPoints++;
+        if (enemyHitPoints > 0) { // made it so it won't regen when at 0 HP
+            enemyHitPoints++; // 1HP per hpRegeneration function run (every 1 sec)
         }
     }
 
-    $('#ap-meter').val(`${playerAttackPoints}`)
-    $('#hp-meter').val(`${enemyHitPoints}`)
+    $('#ap-meter').val(`${playerAttackPoints}`) 
+    $('#hp-meter').val(`${enemyHitPoints}`) // updating value of meters with global variable
 }
